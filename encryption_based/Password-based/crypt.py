@@ -19,77 +19,7 @@ class CryptoSys:
 
         return key
 
-
-    def encrypt_dir_file(self, string, password):
-        crypt = CryptoSys()
-
-        reserved_chr = ['<','>','|',':','"','/','\\','?','*']
-
-        for char in string:
-            if char not in reserved_chr:
-                charecters = []
-
-                for i in range(32,127):
-                    charecters.append(chr(i))
-
-                for rc in reserved_chr:
-                    charecters.remove(rc)
-
-                password_hash = crypt.gen_md5(password)
-                key = crypt.gen_key(password_hash)
-
-                password_hash = crypt.gen_md5(password_hash + str(key))
-                key = crypt.gen_key(password_hash)
-
-                cipher = ""
-
-                for char in string:
-                    cipher += charecters[charecters.index(char) - key]
-
-                return cipher
-
-            else:
-                raise CharecterReservedError
-
-
-    def decrypt_dir_file(self, cipher, password):
-        crypt = CryptoSys()
-
-        reserved_chr = ['<','>','|',':','"','/','\\','?','*']
-
-        for char in cipher:
-            if char not in reserved_chr:
-                charecters = []
-
-                for i in range(32,127):
-                    charecters.append(chr(i))
-
-                for rc in reserved_chr:
-                    charecters.remove(rc)
-
-                password_hash = crypt.gen_md5(password)
-                key = crypt.gen_key(password_hash)
-
-                password_hash = crypt.gen_md5(password_hash + str(key))
-                key = crypt.gen_key(password_hash)
-
-                dec_string = ""
-
-                for char in cipher:
-                    if char:
-                        index = charecters.index(char) + key
-
-                        if index > len(charecters):
-                            index = index - len(charecters)
-
-                        dec_string += charecters[index]
-
-                return dec_string
-
-            else:
-                raise CharecterReservedError
-
-
+    
     def encrypt_data(self, string, password):
         crypt = CryptoSys()
 
